@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 
 var attrcomb = require('..');
 
-describe('Index', function(){
+describe('Power-Default', function(){
   var objs = [{
     name: 'single string',
     obj: {
@@ -110,6 +110,52 @@ describe('Index', function(){
   data_driven(objs, function() {
     it('{name}', function(ctx, done){
       var result = attrcomb.power(ctx.obj);
+      expect(result).to.deep.equal(ctx.expect);
+      done();
+    });
+  });
+})
+
+describe('Power-Range', function(){
+  var objs = [{
+    name: 'mix string, integer, boolean and object',
+    obj: {
+      'integerVal': 1000000,
+      'stringVal': 'testing !@# value',
+      'booleanVal': true,
+      'objVal': {
+        'str2': 'test_QWE123',
+        'int2': -5000
+      }
+    },
+    expect:[ 
+      { integerVal: 1000000, stringVal: 'testing !@# value' },
+      { integerVal: 1000000,
+        stringVal: 'testing !@# value',
+        booleanVal: true },
+      { integerVal: 1000000,
+        stringVal: 'testing !@# value',
+        objVal: { str2: 'test_QWE123', int2: -5000 } },
+      { integerVal: 1000000, booleanVal: true },
+      { integerVal: 1000000,
+        booleanVal: true,
+        objVal: { str2: 'test_QWE123', int2: -5000 } },
+      { integerVal: 1000000,
+        objVal: { str2: 'test_QWE123', int2: -5000 } },
+      { stringVal: 'testing !@# value', booleanVal: true },
+      { stringVal: 'testing !@# value',
+        booleanVal: true,
+        objVal: { str2: 'test_QWE123', int2: -5000 } },
+      { stringVal: 'testing !@# value',
+        objVal: { str2: 'test_QWE123', int2: -5000 } },
+      { booleanVal: true,
+        objVal: { str2: 'test_QWE123', int2: -5000 } }
+    ]
+  }]
+
+  data_driven(objs, function() {
+    it('{name}', function(ctx, done){
+      var result = attrcomb.power(ctx.obj, 2, 3);
       expect(result).to.deep.equal(ctx.expect);
       done();
     });

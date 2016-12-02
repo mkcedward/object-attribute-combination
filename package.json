@@ -13,6 +13,11 @@
     "start": "node index.js",
     "test": "mocha --recursive"
   },
+  "keywords": [
+    "object",
+    "attribute",
+    "combination"
+  ],
   "devDependencies": {
     "chai": "3.5.0",
     "data-driven": "1.2.1",
